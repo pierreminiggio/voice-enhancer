@@ -1,0 +1,29 @@
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Audio File URL"
+        required: true
+        default: "https://naturalvoiceblaster.s3.amazonaws.com/assets/naturalvoiceblaster/9080274_1629572795.mp3"
+
+name: Enchance
+jobs:
+  enchance:
+    name: Enchance
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8']
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@v2
+      - run: sudo apt update
+      - run: sudo apt-get install ffmpeg
+      - run: pip install scipy pydub
+      - run: python main.py $url
+        env:
+          url: ${{ github.event.inputs.url }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: output.mp3
+          path: output.mp3
