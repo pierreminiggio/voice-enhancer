@@ -48,7 +48,7 @@ reberbered_sound = original_voice.overlay(
     140
 )
 
-reberbered_sound.export(
+reberbered_sound.apply_gain(7).export(
     'output.mp3',
     format='mp3'
 )
